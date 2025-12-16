@@ -1,0 +1,12 @@
+{
+  "name": "cloudflare-pages-static",
+  "version": "1.0.0",
+  "description": "Cloudflare Pages application for serving static files with UTF-8 support",
+  "scripts": {
+    "build": "echo 'Building static files...'",
+    "dev": "node server.js"
+  },
+  "keywords": ["cloudflare", "pages", "static", "utf-8"],
+  "author": "",
+  "license": "MIT"
+}
