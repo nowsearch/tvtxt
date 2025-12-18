@@ -1,7 +1,5 @@
-const https = require('https');
 const fs = require('fs');
 const path = require('path');
-const { execSync } = require('child_process');
 
 // 定义常量
 const PUBLIC_DIR = path.join(__dirname, 'public');
