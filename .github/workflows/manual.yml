@@ -13,13 +13,11 @@ jobs:
       # 步骤1：检出本仓库的代码
       - name: Checkout current repo
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.PAT }} # 使用PAT来检出，确保有权限推送更改
 
       # 步骤2：拉取源仓库的代码到一个临时目录
       - name: Fetch upstream repo
         run: |
-          git clone --depth 1 https://${{ secrets.PAT }}@github.com/<SOURCE_REPO_OWNER>/<SOURCE_REPO_NAME>.git upstream-repo
+          git clone https://github.com/kimwang1978/tvbox.git upstream-repo
           # 请将 <SOURCE_REPO_OWNER> 和 <SOURCE_REPO_NAME> 替换为源仓库的实际所有者和名称
 
       # 步骤3：清理目标目录（确保是全量覆盖）
