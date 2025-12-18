@@ -24,9 +24,9 @@ jobs:
           git clone https://github.com/kimwang1978/tvbox.git upstream-repo
           # 请将 <SOURCE_REPO_OWNER> 和 <SOURCE_REPO_NAME> 替换为源仓库的实际所有者和名称
 
-      # 步骤3：清理目标目录（确保是全量覆盖）
+      # 步骤3：清理目标目录（确保是全量覆盖，但保留index.html）
       - name: Clean target directory
-        run: rm -rf ./public/*
+        run: find ./public -mindepth 1 -not -name "index.html" -delete
         # 请将 ./path/to/your/target/directory 替换为您仓库内的实际目标路径
 
       # 步骤4：将源仓库的文件复制到目标目录（排除.git文件夹和README文件）
