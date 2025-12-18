@@ -29,13 +29,17 @@ jobs:
       - name: Copy files
         run: cp -r upstream-repo/* ./public/
 
-      # 步骤5：配置Git用户信息（提交更改所需）
+      # 步骤5：清理临时目录，避免Git将其视为子模块
+      - name: Cleanup temp directory
+        run: rm -rf upstream-repo
+
+      # 步骤6：配置Git用户信息（提交更改所需）
       - name: Setup Git
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-      # 步骤6：检查是否有文件变更，如有则提交并推送回本仓库
+      # 步骤7：检查是否有文件变更，如有则提交并推送回本仓库
       - name: Commit and push if changed
         run: |
           git add -A
