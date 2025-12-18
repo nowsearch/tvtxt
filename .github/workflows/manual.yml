@@ -29,9 +29,9 @@ jobs:
         run: rm -rf ./public/*
         # 请将 ./path/to/your/target/directory 替换为您仓库内的实际目标路径
 
-      # 步骤4：将源仓库的文件复制到目标目录（排除.git文件夹）
+      # 步骤4：将源仓库的文件复制到目标目录（排除.git文件夹和README文件）
       - name: Copy files
-        run: cp -r upstream-repo/* ./public/
+        run: rsync -av --exclude='README.md' --exclude='.git' upstream-repo/ ./public/
 
       # 步骤5：清理临时目录，避免Git将其视为子模块
       - name: Cleanup temp directory
