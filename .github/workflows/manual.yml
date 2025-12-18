@@ -28,12 +28,12 @@ jobs:
 
       # 步骤3：清理目标目录（确保是全量覆盖）
       - name: Clean target directory
-        run: rm -rf ./path/to/your/target/directory/*
+        run: rm -rf ./public/*
         # 请将 ./path/to/your/target/directory 替换为您仓库内的实际目标路径
 
       # 步骤4：将源仓库的文件复制到目标目录（排除.git文件夹）
       - name: Copy files
-        run: cp -r upstream-repo/* ./path/to/your/target/directory/
+        run: cp -r upstream-repo/* ./public/
 
       # 步骤5：配置Git用户信息（提交更改所需）
       - name: Setup Git
