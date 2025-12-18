@@ -1,0 +1,14 @@
+# 日志文件
+*.log
+logs/
+
+# 临时文件
+*.zip
+temp_download/
+
+# 其他可能的临时文件
+node_modules/
+*.tmp
+*.swp
+*.swo
+.DS_Store
