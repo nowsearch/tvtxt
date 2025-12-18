@@ -8,11 +8,15 @@ on:
 jobs:
   sync-tvbox:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       # 步骤1：检出本仓库的代码
       - name: Checkout current repo
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       # 步骤2：拉取源仓库的代码到一个临时目录
       - name: Fetch upstream repo
