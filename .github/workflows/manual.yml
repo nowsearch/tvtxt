@@ -27,15 +27,15 @@ jobs:
       - name: Sync to public directory (full overwrite)
         run: |
           echo "Syncing TVBox content to public directory..."
+          # 首先确保public目录存在
+          mkdir -p public
+          
           # 清空public目录（保留.gitignore等隐藏文件）
           find public -type f -not -name ".*" -delete
           find public -type d -not -name "." -not -path "*/.*" -exec rm -rf {} \;
           
           # 复制TVBox内容到public目录
           cp -r .tvbox-temp/* public/
-          
-          # 确保public目录存在
-          mkdir -p public
       
       - name: Commit and push changes
         run: |
