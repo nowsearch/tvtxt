@@ -4,7 +4,7 @@ const { execSync } = require('child_process');
 
 // 定义常量
 const PUBLIC_DIR = path.join(__dirname, 'public');
-const REPO_URL = process.env.TV_GIT || 'https://github.com/kimwang1978/tvbox.git';
+const REPO_URL = process.env.TV_GIT;
 const REPO_BRANCH = 'main';
 const TEMP_DIR = path.join(__dirname, 'temp_repo');
 
@@ -99,7 +99,7 @@ function generateTvtxtTxt() {
   
   try {
     // 获取domain环境变量，默认为example.com
-    const domain = process.env.domain || 'example.com';
+    const domain = process.env.DOMAIN || 'example.com';
     console.log(`使用域名: ${domain}`);
     
     // 遍历public目录下的所有文件夹
@@ -136,6 +136,12 @@ function generateTvtxtTxt() {
 // 执行prebuild
 async function prebuild() {
   try {
+    // 检查是否设置了TV_GIT环境变量，如果没有就跳过prebuild环节
+    if (!REPO_URL) {
+      console.log('未设置TV_GIT环境变量，跳过prebuild环节');
+      return;
+    }
+    
     // 确保public目录存在
     ensureDir(PUBLIC_DIR);
     
