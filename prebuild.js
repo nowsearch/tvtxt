@@ -60,7 +60,7 @@ function cloneOrUpdateRepo(url, branch, dest) {
 
 // 将仓库内容复制到public目录
 function copyRepoToPublic(repoDir, publicDir) {
-  console.log('开始将仓库内容复制到public目录...');
+  console.log(`开始将 ${repoDir} 目录内容复制到 ${publicDir} 目录...`);
   
   try {
     // 获取仓库目录下的所有文件和文件夹
@@ -71,6 +71,12 @@ function copyRepoToPublic(repoDir, publicDir) {
     
     // 遍历所有文件和文件夹
     items.forEach(item => {
+      // 如果是.git目录，则跳过
+      if (item.isDirectory() && item.name === '.git') {
+        console.log(`跳过.git目录: ${item.name}`);
+        return;
+      }
+      
       const srcPath = path.join(repoDir, item.name);
       const destPath = path.join(publicDir, item.name);
       
