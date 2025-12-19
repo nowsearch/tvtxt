@@ -63,23 +63,43 @@ function copyRepoToPublic(repoDir, publicDir) {
   console.log('开始将仓库内容复制到public目录...');
   
   try {
-    // 复制所有文件到public目录（覆盖已存在的文件）
-    // 使用-p保留文件权限，-r递归复制，-f强制覆盖
-    execSync(`cp -prf ${repoDir}/* ${publicDir}/`, { encoding: 'utf-8' });
+    // 获取仓库目录下的所有文件和文件夹
+    const items = fs.readdirSync(repoDir, { withFileTypes: true });
     
-    // 删除不需要的文件
-    const filesToDelete = ['tvbox.txt', 'README.md'];
-    filesToDelete.forEach(fileName => {
-      const filePath = path.join(publicDir, fileName);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-        console.log(`已删除${fileName}文件`);
+    // 需要排除的文件
+    const filesToExclude = ['tvbox.txt', 'README.md'];
+    
+    // 遍历所有文件和文件夹
+    items.forEach(item => {
+      const srcPath = path.join(repoDir, item.name);
+      const destPath = path.join(publicDir, item.name);
+      
+      // 如果是需要排除的文件，则跳过
+      if (item.isFile() && filesToExclude.includes(item.name)) {
+        console.log(`跳过排除的文件: ${item.name}`);
+        return;
+      }
+      
+      // 如果是目录，则递归复制
+      if (item.isDirectory()) {
+        // 如果目标目录已存在，先删除
+        if (fs.existsSync(destPath)) {
+          execSync(`rm -rf ${destPath}`, { encoding: 'utf-8' });
+        }
+        // 复制目录
+        fs.mkdirSync(destPath, { recursive: true });
+        // 递归复制目录内容
+        copyRepoToPublic(srcPath, destPath);
+      } else {
+        // 如果是文件，直接复制
+        fs.copyFileSync(srcPath, destPath, fs.constants.COPYFILE_FICLONE);
+        console.log(`已复制文件: ${item.name}`);
       }
     });
     
     console.log('已将仓库内容覆盖写入到public目录（已排除指定文件）');
   } catch (error) {
-    console.error('复制文件错误详情:', error.stderr);
+    console.error('复制文件错误详情:', error.message);
     throw new Error('复制文件到public目录失败');
   }
 }
